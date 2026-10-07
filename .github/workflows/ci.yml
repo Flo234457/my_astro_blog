@@ -19,14 +19,10 @@ jobs:
           cache: npm
 
       - name: Install dependencies
-        working-directory: ./my-astro-blog
         run: npm ci
 
       - name: Lint
-        working-directory: ./my-astro-blog
-
         run: npm run lint
 
       - name: Build
-        working-directory: ./my-astro-blog
         run: npm run build
