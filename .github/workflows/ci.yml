@@ -1,0 +1,32 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        working-directory: ./my-astro-blog
+        run: npm ci
+
+      - name: Lint
+        working-directory: ./my-astro-blog
+
+        run: npm run lint
+
+      - name: Build
+        working-directory: ./my-astro-blog
+        run: npm run build
