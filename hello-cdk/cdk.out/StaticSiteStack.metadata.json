@@ -1,0 +1,528 @@
+{
+  "/StaticSiteStack": [
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "<anonymous> (C:\\Users\\temit\\OneDrive\\Desktop\\Devops\\my_astro_blog\\hello-cdk\\bin\\hello-cdk.ts:6:1)",
+        "<anonymous> (C:\\Users\\temit\\OneDrive\\Desktop\\Devops\\my_astro_blog\\hello-cdk\\bin\\hello-cdk.ts:20:2)",
+        "...node internals, tsx..."
+      ]
+    }
+  ],
+  "/StaticSiteStack/SiteBucket": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "removalPolicy": "destroy",
+        "autoDeleteObjects": true
+      }
+    }
+  ],
+  "/StaticSiteStack/Custom::S3AutoDeleteObjectsCustomResourceProvider": [
+    {
+      "type": "aws:cdk:is-custom-resource-handler-customResourceProvider",
+      "data": true
+    }
+  ],
+  "/StaticSiteStack/SiteDistribution": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "defaultBehavior": {
+          "origin": "*"
+        },
+        "defaultRootObject": "*"
+      }
+    }
+  ],
+  "/StaticSiteStack/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "architecture": "*",
+        "layers": [
+          "*"
+        ],
+        "environment": "*",
+        "timeout": "*",
+        "role": "*",
+        "memorySize": "*",
+        "ephemeralStorageSize": "*",
+        "vpc": "*",
+        "vpcSubnets": "*",
+        "securityGroups": "*",
+        "filesystem": "*",
+        "logGroup": "*",
+        "code": "*",
+        "handler": "*",
+        "runtime": "*"
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addEnvironment": [
+          "*",
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addLayers": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:is-custom-resource-handler-singleton",
+      "data": true
+    },
+    {
+      "type": "aws:cdk:is-custom-resource-handler-runtime-family",
+      "data": 2
+    }
+  ],
+  "/StaticSiteStack/BootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "BootstrapVersion"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/StaticSiteStack/CheckBootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CheckBootstrapVersion"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/StaticSiteStack/SiteBucket/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "SiteBucket397A1860"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Bucket2 in aws-cdk-lib...",
+        "new StaticSiteStack (C:\\Users\\temit\\OneDrive\\Desktop\\Devops\\my_astro_blog\\hello-cdk\\lib\\hello-cdk-stack.ts:9:20)",
+        "<anonymous> (C:\\Users\\temit\\OneDrive\\Desktop\\Devops\\my_astro_blog\\hello-cdk\\bin\\hello-cdk.ts:6:1)",
+        "<anonymous> (C:\\Users\\temit\\OneDrive\\Desktop\\Devops\\my_astro_blog\\hello-cdk\\bin\\hello-cdk.ts:20:2)",
+        "...node internals, tsx..."
+      ]
+    },
+    {
+      "type": "aws:cdk:analytics:mixin",
+      "data": {
+        "mixin": "aws-cdk-lib.aws_s3.mixins.BucketAutoDeleteObjects"
+      }
+    }
+  ],
+  "/StaticSiteStack/SiteBucket/Policy": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "bucket": "*"
+      }
+    }
+  ],
+  "/StaticSiteStack/SiteBucket/AutoDeleteObjectsCustomResource": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    }
+  ],
+  "/StaticSiteStack/Custom::S3AutoDeleteObjectsCustomResourceProvider/Role": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/StaticSiteStack/Custom::S3AutoDeleteObjectsCustomResourceProvider/Handler": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/StaticSiteStack/SiteDistribution/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "SiteDistribution3FF9535D"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Distribution2 in aws-cdk-lib...",
+        "new StaticSiteStack (C:\\Users\\temit\\OneDrive\\Desktop\\Devops\\my_astro_blog\\hello-cdk\\lib\\hello-cdk-stack.ts:13:22)",
+        "<anonymous> (C:\\Users\\temit\\OneDrive\\Desktop\\Devops\\my_astro_blog\\hello-cdk\\bin\\hello-cdk.ts:6:1)",
+        "<anonymous> (C:\\Users\\temit\\OneDrive\\Desktop\\Devops\\my_astro_blog\\hello-cdk\\bin\\hello-cdk.ts:20:2)",
+        "...node internals, tsx..."
+      ]
+    }
+  ],
+  "/StaticSiteStack/DeploySite/AwsCliLayer": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {}
+    }
+  ],
+  "/StaticSiteStack/DeploySite/CustomResourceHandler": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "uuid": "*",
+        "architecture": "*",
+        "layers": [
+          "*"
+        ],
+        "environment": "*",
+        "lambdaPurpose": "*",
+        "timeout": "*",
+        "role": "*",
+        "memorySize": "*",
+        "ephemeralStorageSize": "*",
+        "vpc": "*",
+        "vpcSubnets": "*",
+        "securityGroups": "*",
+        "filesystem": "*",
+        "logGroup": "*",
+        "code": "*",
+        "handler": "*",
+        "runtime": "*"
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addMetadata": [
+          "*",
+          true
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addMetadata": [
+          "*",
+          "*"
+        ]
+      }
+    }
+  ],
+  "/StaticSiteStack/DeploySite/CustomResource": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    }
+  ],
+  "/StaticSiteStack/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/ServiceRole": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "assumedBy": {
+          "principalAccount": "*",
+          "assumeRoleAction": "*"
+        },
+        "managedPolicies": [
+          {
+            "managedPolicyArn": "*"
+          }
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addToPrincipalPolicy": [
+          {}
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachInlinePolicy": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachInlinePolicy": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addToPrincipalPolicy": [
+          {}
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addToPrincipalPolicy": [
+          {}
+        ]
+      }
+    }
+  ],
+  "/StaticSiteStack/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C81C01536"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new BucketDeployment2 in aws-cdk-lib...",
+        "new StaticSiteStack (C:\\Users\\temit\\OneDrive\\Desktop\\Devops\\my_astro_blog\\hello-cdk\\lib\\hello-cdk-stack.ts:17:1)",
+        "<anonymous> (C:\\Users\\temit\\OneDrive\\Desktop\\Devops\\my_astro_blog\\hello-cdk\\bin\\hello-cdk.ts:6:1)"
+      ]
+    }
+  ],
+  "/StaticSiteStack/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/LogGroup": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "logGroupName": "*"
+      }
+    }
+  ],
+  "/StaticSiteStack/CDKMetadata/Default": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CDKMetadata"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib, node internals...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/StaticSiteStack/SiteBucket/Policy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "SiteBucketPolicy3AC1D0F8"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Bucket2 in aws-cdk-lib...",
+        "new StaticSiteStack (C:\\Users\\temit\\OneDrive\\Desktop\\Devops\\my_astro_blog\\hello-cdk\\lib\\hello-cdk-stack.ts:9:20)",
+        "<anonymous> (C:\\Users\\temit\\OneDrive\\Desktop\\Devops\\my_astro_blog\\hello-cdk\\bin\\hello-cdk.ts:6:1)",
+        "<anonymous> (C:\\Users\\temit\\OneDrive\\Desktop\\Devops\\my_astro_blog\\hello-cdk\\bin\\hello-cdk.ts:20:2)"
+      ]
+    },
+    {
+      "type": "aws:cdk:analytics:mixin",
+      "data": {
+        "mixin": "aws-cdk-lib.aws_s3.mixins.BucketPolicyStatements"
+      }
+    }
+  ],
+  "/StaticSiteStack/SiteBucket/AutoDeleteObjectsCustomResource/Default": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "SiteBucketAutoDeleteObjectsCustomResource9585E968"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/StaticSiteStack/SiteDistribution/Origin1/S3OriginAccessControl": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    }
+  ],
+  "/StaticSiteStack/DeploySite/AwsCliLayer/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "DeploySiteAwsCliLayer88B0EBE2"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new BucketDeployment2 in aws-cdk-lib...",
+        "new StaticSiteStack (C:\\Users\\temit\\OneDrive\\Desktop\\Devops\\my_astro_blog\\hello-cdk\\lib\\hello-cdk-stack.ts:17:1)",
+        "<anonymous> (C:\\Users\\temit\\OneDrive\\Desktop\\Devops\\my_astro_blog\\hello-cdk\\bin\\hello-cdk.ts:6:1)",
+        "<anonymous> (C:\\Users\\temit\\OneDrive\\Desktop\\Devops\\my_astro_blog\\hello-cdk\\bin\\hello-cdk.ts:20:2)",
+        "...node internals..."
+      ]
+    }
+  ],
+  "/StaticSiteStack/DeploySite/Asset1/AssetBucket": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    }
+  ],
+  "/StaticSiteStack/DeploySite/CustomResource/Default": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "DeploySiteCustomResourceE47C9748"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new BucketDeployment2 in aws-cdk-lib...",
+        "new StaticSiteStack (C:\\Users\\temit\\OneDrive\\Desktop\\Devops\\my_astro_blog\\hello-cdk\\lib\\hello-cdk-stack.ts:17:1)",
+        "<anonymous> (C:\\Users\\temit\\OneDrive\\Desktop\\Devops\\my_astro_blog\\hello-cdk\\bin\\hello-cdk.ts:6:1)",
+        "<anonymous> (C:\\Users\\temit\\OneDrive\\Desktop\\Devops\\my_astro_blog\\hello-cdk\\bin\\hello-cdk.ts:20:2)",
+        "...node internals, tsx..."
+      ]
+    }
+  ],
+  "/StaticSiteStack/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/ServiceRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRole89A01265"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/StaticSiteStack/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/ServiceRole/DefaultPolicy": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachToRole": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "attachToRole": [
+          "*"
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addStatements": [
+          {}
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addStatements": [
+          {}
+        ]
+      }
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": {
+        "addStatements": [
+          {}
+        ]
+      }
+    }
+  ],
+  "/StaticSiteStack/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/Code/AssetBucket": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    }
+  ],
+  "/StaticSiteStack/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/LogGroup/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CLogGroup817B64E9"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/StaticSiteStack/SiteDistribution/Origin1/S3OriginAccessControl/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "SiteDistributionOrigin1S3OriginAccessControl7D960FE6"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Distribution2 in aws-cdk-lib...",
+        "new StaticSiteStack (C:\\Users\\temit\\OneDrive\\Desktop\\Devops\\my_astro_blog\\hello-cdk\\lib\\hello-cdk-stack.ts:13:22)",
+        "<anonymous> (C:\\Users\\temit\\OneDrive\\Desktop\\Devops\\my_astro_blog\\hello-cdk\\bin\\hello-cdk.ts:6:1)",
+        "<anonymous> (C:\\Users\\temit\\OneDrive\\Desktop\\Devops\\my_astro_blog\\hello-cdk\\bin\\hello-cdk.ts:20:2)"
+      ]
+    }
+  ],
+  "/StaticSiteStack/DeploySite/AwsCliLayer/Code/AssetBucket": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    }
+  ],
+  "/StaticSiteStack/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/ServiceRole/DefaultPolicy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRoleDefaultPolicy88902FDF"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ]
+}
