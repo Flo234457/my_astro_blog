@@ -20,5 +20,8 @@ destinationBucket: siteBucket,
 distribution,
 distributionPaths: ['/*'], // Automatic CloudFront CDN cache invalidation!
 });
+new cdk.CfnOutput(this, 'SiteUrl', {
+value: `https://${distribution.distributionDomainName}`,
+});
 }
 }
