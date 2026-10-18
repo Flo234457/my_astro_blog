@@ -1,0 +1,19 @@
+@font-face {
+	font-family: 'Emilys Candy';
+	src: url('../assets/fonts/emilys-candy-latin-400-normal.woff2') format('woff2');
+	font-style: normal;
+	font-weight: 400;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'Mansalva';
+	src: url('../assets/fonts/Mansalva-Regular.ttf') format('truetype');
+	font-style: normal;
+	font-weight: 400;
+	font-display: swap;
+}
+
+body {
+	background-color: #ffefda;
+}
