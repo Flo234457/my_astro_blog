@@ -1,7 +1,7 @@
 # ADR-001: Transition from Static Site to Containerized SSR Runtime
 
 ## Status
-Accepted (Date: 2026-09-28)
+Superseded on 2026-10-18: the site uses static S3 and CloudFront hosting because it does not currently require a server runtime.
 
 ## Context
 Our platform requires dynamic API endpoints, including `/api/health` and `/api/feedback`, to support operational health checks and user feedback functionality.
