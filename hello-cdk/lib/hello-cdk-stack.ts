@@ -10,8 +10,33 @@ const siteBucket = new s3.Bucket(this, 'SiteBucket', {
 removalPolicy: cdk.RemovalPolicy.DESTROY,
 autoDeleteObjects: true,
 });
+const urlRewriteFunction = new cloudfront.Function(this, 'UrlRewriteFunction', {
+code: cloudfront.FunctionCode.fromInline(`
+function handler(event) {
+  var request = event.request;
+  var uri = request.uri;
+
+  if (uri === '/' || uri.indexOf('/api/') === 0 || uri.indexOf('.') !== -1) {
+    return request;
+  }
+
+  if (uri.charAt(uri.length - 1) !== '/') {
+    uri += '/';
+  }
+
+  request.uri = uri + 'index.html';
+  return request;
+}
+`),
+});
 const distribution = new cloudfront.Distribution(this, 'SiteDistribution', {
-defaultBehavior: { origin: origins.S3BucketOrigin.withOriginAccessControl(siteBucket) },
+defaultBehavior: {
+origin: origins.S3BucketOrigin.withOriginAccessControl(siteBucket),
+functionAssociations: [{
+function: urlRewriteFunction,
+eventType: cloudfront.FunctionEventType.VIEWER_REQUEST,
+}],
+},
 defaultRootObject: 'index.html',
 });
 new s3deploy.BucketDeployment(this, 'DeploySite', {
