@@ -26,4 +26,7 @@ jobs:
 
       - name: Build
         run: npm run build
+
+      - name: Validate Docker image build
+        run: docker build -f Dockerfile .
       
