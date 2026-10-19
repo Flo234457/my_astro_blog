@@ -1,28 +1,28 @@
 {
   "version": "54.0.0",
   "artifacts": {
-    "StaticSiteStack.assets": {
+    "AstroStaticSiteStack.assets": {
       "type": "cdk:asset-manifest",
       "properties": {
-        "file": "StaticSiteStack.assets.json",
+        "file": "AstroStaticSiteStack.assets.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
       }
     },
-    "StaticSiteStack": {
+    "AstroStaticSiteStack": {
       "type": "aws:cloudformation:stack",
       "environment": "aws://556425006410/us-east-1",
       "properties": {
-        "templateFile": "StaticSiteStack.template.json",
+        "templateFile": "AstroStaticSiteStack.template.json",
         "terminationProtection": false,
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::556425006410:role/cdk-hnb659fds-deploy-role-556425006410-us-east-1",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::556425006410:role/cdk-hnb659fds-cfn-exec-role-556425006410-us-east-1",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-556425006410-us-east-1/0a91c6207bec9e7a5aa5ee3323561ffb786d2ff5fb988f8deb13b3f9fc8b77ea.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-556425006410-us-east-1/db9111285458ae049e1ab96f3abf68e996f122e86575c97e3332369199679f14.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
-          "StaticSiteStack.assets"
+          "AstroStaticSiteStack.assets"
         ],
         "lookupRole": {
           "arn": "arn:${AWS::Partition}:iam::556425006410:role/cdk-hnb659fds-lookup-role-556425006410-us-east-1",
@@ -31,10 +31,10 @@
         }
       },
       "dependencies": [
-        "StaticSiteStack.assets"
+        "AstroStaticSiteStack.assets"
       ],
-      "additionalMetadataFile": "StaticSiteStack.metadata.json",
-      "displayName": "StaticSiteStack"
+      "additionalMetadataFile": "AstroStaticSiteStack.metadata.json",
+      "displayName": "AstroStaticSiteStack"
     },
     "Tree": {
       "type": "cdk:tree",
