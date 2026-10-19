@@ -1,7 +1,7 @@
 # ADR-002: Return to Static S3 and CloudFront Hosting
 
 ## Status
-Accepted (2026-10-18)
+Superseded on 2026-10-19 by [ADR-001](./ADR-001-transition-to-ssr-and-containers.md).
 
 ## Context
 The Astro site is deployed as static assets to a private S3 bucket and served through CloudFront. The deployment expects the build to contain `dist/index.html`, which CloudFront serves as the default root object.
