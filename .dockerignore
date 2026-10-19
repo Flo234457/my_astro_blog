@@ -3,6 +3,8 @@ node_modules/
 .git/
 .astro/
 dist/
+hello-cdk/cdk.out/
+hello-cdk/node_modules/
 .env
 .env.*
 !.env.example

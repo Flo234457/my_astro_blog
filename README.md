@@ -1,54 +1,40 @@
-# Astro Starter Kit: Basics
+# BookMarks
+
+BookMarks is an Astro application rendered by a Node.js server. It uses Astro's
+standalone Node adapter, so pages and API routes are served at request time.
+
+## Run locally
+
+Requires Node.js 22.12 or later.
 
 ```sh
-npm create astro@latest -- --template basics
+npm ci
+npm run dev
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+The application is available at `http://localhost:4321`. The `/api/health`
+endpoint returns the server health status.
 
-## 🚀 Project Structure
+## Build and run the container
 
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src/
-│   ├── assets/
-│   │   └── astro.svg
-│   ├── components/
-│   │   └── Welcome.astro
-│   ├── content/
-│   │   ├── authors/
-│   │   │   └── author.md
-│   │   └── blog/
-│   │       ├── astro-content-collections.md
-│   │       └── first-post.md
-│   ├── content.config.ts
-│   ├── layouts/
-│   │   └── Layout.astro
-│   └── pages/
-│       └── index.astro
-└── package.json
+```sh
+npm run check
+npm run build
+docker build -t bookmarks .
+docker run --rm -p 4321:4321 bookmarks
 ```
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+The production image starts the standalone server from `dist/server/entry.mjs`.
 
-## 🧞 Commands
+## AWS deployment
 
-All commands are run from the root of the project, from a terminal:
+The CDK application in `hello-cdk/` builds the root Dockerfile and deploys it
+as an ECS Fargate service behind an Application Load Balancer. From that
+directory, use the CDK CLI to synthesize or deploy the `StaticSiteStack` stack:
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run check`           | Checks Astro files, content schemas, and types   |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+```sh
+npm run cdk -- synth
+npm run cdk -- deploy
+```
 
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+AWS credentials and a bootstrapped CDK environment are required for deployment.

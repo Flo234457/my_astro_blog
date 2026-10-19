@@ -1,52 +1,34 @@
 import * as cdk from 'aws-cdk-lib';
-import * as s3 from 'aws-cdk-lib/aws-s3';
-import * as cloudfront from 'aws-cdk-lib/aws-cloudfront';
-import * as origins from 'aws-cdk-lib/aws-cloudfront-origins';
-import * as s3deploy from 'aws-cdk-lib/aws-s3-deployment';
-export class StaticSiteStack extends cdk.Stack {
-constructor(scope: cdk.App, id: string, props?: cdk.StackProps) {
-super(scope, id, props);
-const siteBucket = new s3.Bucket(this, 'SiteBucket', {
-removalPolicy: cdk.RemovalPolicy.DESTROY,
-autoDeleteObjects: true,
-});
-const urlRewriteFunction = new cloudfront.Function(this, 'UrlRewriteFunction', {
-code: cloudfront.FunctionCode.fromInline(`
-function handler(event) {
-  var request = event.request;
-  var uri = request.uri;
+import * as ec2 from 'aws-cdk-lib/aws-ec2';
+import * as ecs from 'aws-cdk-lib/aws-ecs';
+import * as ecsPatterns from 'aws-cdk-lib/aws-ecs-patterns';
+import * as path from 'node:path';
 
-  if (uri === '/' || uri.indexOf('/api/') === 0 || uri.indexOf('.') !== -1) {
-    return request;
+export class AstroSsrStack extends cdk.Stack {
+  constructor(scope: cdk.App, id: string, props?: cdk.StackProps) {
+    super(scope, id, props);
+
+    const vpc = new ec2.Vpc(this, 'Vpc', { maxAzs: 2, natGateways: 0 });
+    const cluster = new ecs.Cluster(this, 'Cluster', { vpc });
+    const service = new ecsPatterns.ApplicationLoadBalancedFargateService(this, 'AstroService', {
+      cluster,
+      cpu: 256,
+      memoryLimitMiB: 512,
+      desiredCount: 1,
+      assignPublicIp: true,
+      taskSubnets: { subnetType: ec2.SubnetType.PUBLIC },
+      circuitBreaker: { rollback: true },
+      minHealthyPercent: 100,
+      taskImageOptions: {
+        image: ecs.ContainerImage.fromAsset(path.resolve(__dirname, '../..')),
+        containerPort: 4321,
+      },
+    });
+
+    service.targetGroup.configureHealthCheck({ path: '/api/health' });
+
+    new cdk.CfnOutput(this, 'SiteUrl', {
+      value: `http://${service.loadBalancer.loadBalancerDnsName}`,
+    });
   }
-
-  if (uri.charAt(uri.length - 1) !== '/') {
-    uri += '/';
-  }
-
-  request.uri = uri + 'index.html';
-  return request;
-}
-`),
-});
-const distribution = new cloudfront.Distribution(this, 'SiteDistribution', {
-defaultBehavior: {
-origin: origins.S3BucketOrigin.withOriginAccessControl(siteBucket),
-functionAssociations: [{
-function: urlRewriteFunction,
-eventType: cloudfront.FunctionEventType.VIEWER_REQUEST,
-}],
-},
-defaultRootObject: 'index.html',
-});
-new s3deploy.BucketDeployment(this, 'DeploySite', {
-sources: [s3deploy.Source.asset('../dist')],
-destinationBucket: siteBucket,
-distribution,
-distributionPaths: ['/*'], // Automatic CloudFront CDN cache invalidation!
-});
-new cdk.CfnOutput(this, 'SiteUrl', {
-value: `https://${distribution.distributionDomainName}`,
-});
-}
 }
