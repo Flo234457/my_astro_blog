@@ -1,4 +1,4 @@
-# ADR-002: Return to Static S3 and CloudFront Hosting
+# ADR-002: Return to Static S3 and CloudFront Hosting only on a specific branch
 
 ## Status
 Superseded on 2026-10-19 by [ADR-001](./ADR-001-transition-to-ssr-and-containers.md).

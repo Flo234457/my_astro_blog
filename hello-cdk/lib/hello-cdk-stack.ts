@@ -3,6 +3,8 @@ import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import * as ecs from 'aws-cdk-lib/aws-ecs';
 import * as ecsPatterns from 'aws-cdk-lib/aws-ecs-patterns';
 import * as path from 'node:path';
+import * as cloudfront from 'aws-cdk-lib/aws-cloudfront';
+import * as origins from 'aws-cdk-lib/aws-cloudfront-origins';
 
 export class AstroSsrStack extends cdk.Stack {
   constructor(scope: cdk.App, id: string, props?: cdk.StackProps) {
@@ -26,7 +28,20 @@ export class AstroSsrStack extends cdk.Stack {
     });
 
     service.targetGroup.configureHealthCheck({ path: '/api/health' });
-
+const distribution = new cloudfront.Distribution(this, 'AstroDistribution', {
+  defaultBehavior: {
+    origin: new origins.LoadBalancerV2Origin(service.loadBalancer, {
+      protocolPolicy: cloudfront.OriginProtocolPolicy.HTTP_ONLY,
+    }),
+    viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
+    cachePolicy: cloudfront.CachePolicy.CACHING_DISABLED,
+    originRequestPolicy: cloudfront.OriginRequestPolicy.ALL_VIEWER_EXCEPT_HOST_HEADER,
+    allowedMethods: cloudfront.AllowedMethods.ALLOW_ALL,
+  },
+});
+new cdk.CfnOutput(this, 'CloudFrontUrl', {
+  value: `https://${distribution.distributionDomainName}`,
+});
     new cdk.CfnOutput(this, 'SiteUrl', {
       value: `http://${service.loadBalancer.loadBalancerDnsName}`,
     });
