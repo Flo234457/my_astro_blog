@@ -290,7 +290,8 @@ signupForm?.addEventListener('submit', async (event) => {
   } else {
     signupMessage.textContent =
       'Registration submitted! Check your email for a confirmation link if required.';
-    signupForm.reset();
+	   window.location.href = '/homepage';
+
   }
 });
 
