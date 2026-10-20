@@ -14,8 +14,7 @@ import ghostLogo from '../assets/logo.svg';
   <section class="signup-card">
     <h1>Sign Up</h1>
 
-    <form>
-
+<form id="signup-form">
 <div class="input-wrapper">
   <span class="input-icon" aria-hidden="true">✉</span>
   <input
@@ -51,6 +50,7 @@ import ghostLogo from '../assets/logo.svg';
 </div>
 
       <button type="submit">Create Account</button>
+	  <p id="signup-message" role="status" aria-live="polite"></p>
     </form>
   </section>
 
@@ -241,10 +241,12 @@ import ghostLogo from '../assets/logo.svg';
   }
 }
 
+
 </style>
 
 
 <script>
+import { supabase } from '../lib/supabase';
   const passwordInput = document.querySelector<HTMLInputElement>('#password');
   const toggleButton = document.querySelector<HTMLButtonElement>('.toggle-password');
 
@@ -261,5 +263,36 @@ import ghostLogo from '../assets/logo.svg';
       isHidden ? 'Hide password' : 'Show password'
     );
   });
+  
+const signupForm = document.querySelector<HTMLFormElement>('#signup-form');
+const signupMessage = document.querySelector<HTMLParagraphElement>('#signup-message');
+
+signupForm?.addEventListener('submit', async (event) => {
+  event.preventDefault();
+
+  const emailInput = document.querySelector<HTMLInputElement>('#email');
+  const passwordInput = document.querySelector<HTMLInputElement>('#password');
+
+  if (!emailInput || !passwordInput || !signupMessage) return;
+
+  const email = emailInput.value.trim();
+  const password = passwordInput.value;
+
+  signupMessage.textContent = 'Creating your account...';
+
+  const { error } = await supabase.auth.signUp({
+    email,
+    password,
+  });
+
+  if (error) {
+    signupMessage.textContent = error.message;
+  } else {
+    signupMessage.textContent =
+      'Registration submitted! Check your email for a confirmation link if required.';
+    signupForm.reset();
+  }
+});
+
 </script>
 
