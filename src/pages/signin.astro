@@ -1,11 +1,303 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import '../styles/global.css';
+import ghostLogo from '../assets/logo.svg';
 ---
 
 <Layout>
-	<main>
-		<h1>Sign in</h1>
-		<p>Sign-in isn't set up yet.</p>
-		<a href="/">Back to home</a>
-	</main>
+<main class="login-page">
+	<img
+  class="logo"
+  src={ghostLogo.src}
+  alt="logo"
+/>
+  <section class="login-card">
+    <h1>Login</h1>
+
+<form id="login-form">
+<div class="input-wrapper">
+  <span class="input-icon" aria-hidden="true">✉</span>
+  <input
+    type="email"
+    id="email"
+    name="email"
+    placeholder="Enter your email"
+    autocomplete="email"
+    required
+  />
+</div>
+
+     
+<div class="input-wrapper">
+  <span class="input-icon" aria-hidden="true">🔒︎</span>
+  <input
+    type="password"
+    id="password"
+    name="password"
+    placeholder="Enter your password"
+	autocomplete="current-password"
+    minlength="8"
+    required
+  />
+  <button
+    class="toggle-password"
+    type="button"
+    aria-label="Show password"
+    aria-pressed="false"
+  >
+    👁
+  </button>
+</div>
+	<button type="submit">Login</button>
+	  <p id="login-message" role="status" aria-live="polite"></p>
+    </form>
+  </section>
+
+</main>
+  <footer class="brown-section"></footer>
+
 </Layout>
+
+<style>
+	  /* the overall page design */
+
+  .login-page {
+	min-height: calc(100vh - 95px);
+    background-color: #ffefda;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+    padding: 30px 40px;
+    box-sizing: border-box;
+  }
+  /* the cards thingy */
+
+  .login-card {
+    width: 725px;
+    max-width: 100%;
+	min-height: calc(100vh - 95px);
+    background-color: #d5a16d;
+    border: 2px solid #602e17;
+    box-sizing: border-box;
+    padding: 25px 60px;
+  }
+
+  h1 {
+    font-family: 'Emilys Candy', cursive;
+    font-size: 70px;
+    font-weight: 400;
+    color: #602e17;
+    text-align: center;
+    margin: 0 0 35px;
+  }
+  
+  /* positioning to match my design in canva */
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  /* Email and Password stuff */
+  label {
+    font-family: 'Mansalva', cursive;
+    font-size: 20px;
+    color: #602e17;
+    margin-top: 8px;
+  }
+
+  /* making the box pwetty */
+  input {
+    width: 100%;
+    height: 55px;
+    padding: 0 20px;
+    border: 1px solid #c9a88e;
+    border-radius: 15px;
+    background-color: #ffefda;
+    color: #602e17;
+    font-family: 'Mansalva', cursive;
+    font-size: 18px;
+    box-sizing: border-box;
+  }
+/*highlights shit*/
+  input:focus {
+    outline: 2px solid #a96f43;
+    outline-offset: 2px;
+  }
+  /* make button pwetty */
+
+  button {
+    background-color: #602e17;
+    color: #ffefda;
+    border: none;
+    border-radius: 12px;
+    padding: 15px 25px;
+    font-family: 'Mansalva', cursive;
+    font-size: 20px;
+    cursor: pointer;
+    margin-top: 20px;
+  }
+  /* cool hover thingy i stole from reddit #youngho */
+
+  button:hover {
+    background-color: #a96f43;
+  }
+  
+.input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.input-icon {
+  position: absolute;
+  left: 17px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #602e17;
+  font-size: 20px;
+  pointer-events: none;
+}
+
+.input-wrapper input {
+  padding-left: 55px;
+}
+
+.input-wrapper:has(.toggle-password) input {
+  padding-right: 60px;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  color: #602e17;
+  border: none;
+  padding: 8px;
+  margin: 0;
+  cursor: pointer;
+  font-size: 22px;
+}
+
+.toggle-password:hover {
+  background: transparent;
+  color: #a96f43;
+}
+
+.login-page {
+  position: relative;
+}
+/*ghost settings*/
+.logo {
+  position: absolute;
+  width: 220px;
+  height: auto;
+  left: 40px;
+  bottom: 0;
+}
+.brown-section {
+  width: 100%;
+  height: 95px;
+  background-color: #d5a16d;
+  border-top: 3px solid #602e17;
+  box-sizing: border-box;
+}
+
+/* Adjust the layout for smaller screens */
+@media (max-width: 768px) {
+  .login-page {
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 20px;
+    gap: 30px;
+  }
+
+  .login-card {
+    width: 100%;
+    min-height: auto;
+    padding: 25px 20px;
+  }
+
+  h1 {
+    font-size: 48px;
+  }
+
+  .logo {
+    position: static;
+    width: 150px;
+    align-self: center;
+    order: 2;
+  }
+
+  .login-card {
+    order: 1;
+  }
+
+  .brown-section {
+    height: 75px;
+  }
+}
+
+
+</style>
+
+
+<script>
+import { supabase } from '../lib/supabase';
+  const passwordInput = document.querySelector<HTMLInputElement>('#password');
+  const toggleButton = document.querySelector<HTMLButtonElement>('.toggle-password');
+
+  toggleButton?.addEventListener('click', () => {
+    if (!passwordInput) return;
+
+    const isHidden = passwordInput.type === 'password';
+
+    passwordInput.type = isHidden ? 'text' : 'password';
+
+    toggleButton.setAttribute('aria-pressed', String(isHidden));
+    toggleButton.setAttribute(
+      'aria-label',
+      isHidden ? 'Hide password' : 'Show password'
+    );
+  });
+  
+
+const loginForm = document.querySelector<HTMLFormElement>('#login-form');
+const loginMessage = document.querySelector<HTMLParagraphElement>('#login-message');
+
+loginForm?.addEventListener('submit', async (event) => {
+  event.preventDefault();
+
+  const emailInput = document.querySelector<HTMLInputElement>('#email');
+  const passwordInput = document.querySelector<HTMLInputElement>('#password');
+
+  if (!emailInput || !passwordInput || !loginMessage) return;
+
+  const email = emailInput.value.trim();
+  const password = passwordInput.value;
+
+  loginMessage.textContent = 'Logging in...';
+
+  try {
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    if (error) {
+      loginMessage.textContent = error.message;
+    } else {
+      loginMessage.textContent = 'Login successful! Welcome back 𔓎';
+	  window.location.href = '/homepage';
+
+    }
+  } catch {
+    loginMessage.textContent = 'Unable to connect. Please try again.';
+  }
+});
+
+
+</script>
+
