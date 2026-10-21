@@ -1,3 +1,4 @@
+import * as logs from 'aws-cdk-lib/aws-logs';
 import * as cdk from 'aws-cdk-lib';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import * as ecs from 'aws-cdk-lib/aws-ecs';
@@ -12,6 +13,10 @@ export class AstroSsrStack extends cdk.Stack {
 
     const vpc = new ec2.Vpc(this, 'Vpc', { maxAzs: 2, natGateways: 0 });
     const cluster = new ecs.Cluster(this, 'Cluster', { vpc });
+    const logGroup = new logs.LogGroup(this, 'ApplicationLogs', {
+  retention: logs.RetentionDays.ONE_WEEK,
+  removalPolicy: cdk.RemovalPolicy.RETAIN,
+});
     const service = new ecsPatterns.ApplicationLoadBalancedFargateService(this, 'AstroService', {
       cluster,
       cpu: 256,
@@ -22,9 +27,13 @@ export class AstroSsrStack extends cdk.Stack {
       circuitBreaker: { rollback: true },
       minHealthyPercent: 100,
       taskImageOptions: {
-        image: ecs.ContainerImage.fromAsset(path.resolve(__dirname, '../..')),
-        containerPort: 4321,
-      },
+  image: ecs.ContainerImage.fromAsset(path.resolve(__dirname, '../..')),
+  containerPort: 4321,
+  logDriver: ecs.LogDrivers.awsLogs({
+    streamPrefix: 'astro',
+    logGroup,
+  }),
+},
     });
 
     service.targetGroup.configureHealthCheck({ path: '/api/health' });
