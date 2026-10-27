@@ -1,0 +1,141 @@
+
+---
+import Layout from '../../layouts/Layout.astro';
+
+export const prerender = false;
+
+const { id } = Astro.params;
+---
+
+<Layout>
+  <main class="shelf-page">
+    <section class="shelf-panel">
+      <a href="/homepage" class="back-link">← My Dashboard</a>
+
+      <h1 id="shelf-title">Loading shelf...</h1>
+
+      <img
+        id="shelf-cover"
+        class="shelf-cover"
+        alt="Shelf cover"
+        hidden
+      />
+
+      <p id="shelf-created"></p>
+
+      <h2>My Books</h2>
+      <p>No books added yet...</p>
+    </section>
+  </main>
+</Layout>
+
+<script>
+  import { supabase } from '../../lib/supabase';
+
+  async function loadShelf() {
+    const title = document.querySelector<HTMLElement>('#shelf-title');
+    const cover = document.querySelector<HTMLImageElement>('#shelf-cover');
+    const created = document.querySelector<HTMLElement>('#shelf-created');
+
+    if (!title || !cover || !created) return;
+
+    const shelfId = window.location.pathname.split('/').filter(Boolean).pop();
+
+    const { data: { user }, error: authError } =
+      await supabase.auth.getUser();
+
+    if (authError || !user) {
+      window.location.replace('/signin');
+      return;
+    }
+
+    const { data: shelf, error } = await supabase
+      .from('shelves')
+      .select('id, name, cover_image, created_at')
+      .eq('id', shelfId)
+      .eq('user_id', user.id)
+      .maybeSingle();
+
+    if (error) {
+      console.error('Failed to load shelf:', error.message);
+      title.textContent = 'Could not load shelf.';
+      return;
+    }
+
+    if (!shelf) {
+      title.textContent = 'Shelf not found.';
+      return;
+    }
+
+    title.textContent = shelf.name;
+
+    const allowedCovers = [
+      '/shelfCovers/plaid.png',
+      '/shelfCovers/flower.png'
+    ];
+
+    cover.src = allowedCovers.includes(shelf.cover_image)
+      ? shelf.cover_image
+      : '/shelfCovers/plaid.png';
+
+    cover.alt = `${shelf.name} cover`;
+    cover.hidden = false;
+
+    created.textContent =
+      `Created: ${new Date(shelf.created_at).toLocaleDateString()}`;
+  }
+
+  loadShelf();
+</script>
+
+<style>
+  .shelf-page {
+    min-height: 100vh;
+    padding: 50px 20px;
+    display: flex;
+    justify-content: center;
+    box-sizing: border-box;
+  }
+
+  .shelf-panel {
+    background: #ffe6c5;
+    color: #602e17;
+    border-radius: 14px;
+    padding: 32px;
+    width: min(100%, 850px);
+    box-shadow:
+      0 14px 0 #c58b5b,
+      0 27px 0 #602e17;
+  }
+
+  .back-link {
+    color: #602e17;
+    font-family: 'Mansalva', cursive;
+    text-decoration: none;
+    font-size: 1.2rem;
+  }
+
+  h1 {
+    font-family: 'Emilys Candy', cursive;
+    font-size: 2.8rem;
+    font-weight: normal;
+  }
+
+  .shelf-cover {
+    width: 160px;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 12px;
+  }
+
+  h2 {
+    font-family: 'Mansalva', cursive;
+    font-weight: normal;
+    margin-top: 35px;
+  }
+
+  p {
+    font-family: 'Mansalva', cursive;
+    font-size: 1.2rem;
+  }
+</style>
