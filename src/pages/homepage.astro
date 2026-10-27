@@ -1,9 +1,221 @@
+
 ---
 import Layout from '../layouts/Layout.astro';
+import dashboardBg from '../assets/homepagebg.svg';
 ---
 
 <Layout>
-	<main>
-		<h1>Welcome to dashboard</h1>
-	</main>
+  <main
+    class="dashboard"
+    style={`background-image: url('${dashboardBg.src}');`}
+  >
+    <!-- Dashboard Header -->
+    <header class="dashboard-header">
+      <div>
+        <h1>My Dashboard</h1>
+        <p>– View and edit your shelves</p>
+      </div>
+
+      <div class="profile-icon" aria-label="Profile">
+        <svg
+          viewBox="0 0 64 64"
+          width="55"
+          height="55"
+          aria-hidden="true"
+        >
+          <circle cx="32" cy="21" r="12" fill="#ffa52f" />
+          <path
+            d="M9 57c0-14 10-22 23-22s23 8 23 22"
+            fill="#ffa52f"
+          />
+        </svg>
+      </div>
+    </header>
+
+    <!-- My Shelves Panel -->
+    <section class="shelves-panel">
+      <div class="shelves-heading">
+        <h2>My Shelves</h2>
+
+        <button
+          class="edit-button"
+          type="button"
+          aria-label="Edit shelves"
+        >
+          ✎
+        </button>
+      </div>
+
+      <button class="add-shelf" type="button">
+        <span class="plus">+</span>
+        Add a shelf
+      </button>
+
+      <div class="shelves-content">
+        <p class="empty-message">No shelves yet...</p>
+      </div>
+    </section>
+  </main>
 </Layout>
+
+<style>
+  /* Full-page SVG background */
+  .dashboard {
+    width: 100%;
+    max-width: none;
+    min-height: 100vh;
+    box-sizing: border-box;
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    padding: 40px max(20px, calc((100% - 1100px) / 2));
+    color: #602e17;
+  }
+
+  /* Cream panels with layered brown shadows */
+  .dashboard-header,
+  .shelves-panel {
+    background: #ffe6c5;
+    border-radius: 13px;
+    box-shadow:
+      0 14px 0 #c58b5b,
+      0 27px 0 #602e17;
+  }
+
+  /* Header */
+  .dashboard-header {
+    min-height: 130px;
+    padding: 20px 26px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 58px;
+    box-sizing: border-box;
+  }
+
+  .dashboard-header h1 {
+    font-family: 'Emilys Candy', cursive;
+    font-size: clamp(2.2rem, 4vw, 3.4rem);
+    font-weight: normal;
+    margin: 0;
+  }
+
+  .dashboard-header p {
+    font-family: 'Mansalva', cursive;
+    font-size: 1.5rem;
+    margin: 0;
+  }
+
+  /* Profile icon */
+  .profile-icon {
+    background: #fff9ed;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+  }
+
+  /* Shelves panel */
+  .shelves-panel {
+    min-height: 430px;
+    padding: 28px 26px;
+    position: relative;
+    box-sizing: border-box;
+  }
+
+  .shelves-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .shelves-heading h2 {
+    font-family: 'Mansalva', cursive;
+    font-weight: normal;
+    font-size: 1.8rem;
+    background: #ffefd9;
+    border-radius: 10px;
+    padding: 9px 17px;
+    margin: 0;
+  }
+
+  /* Edit button */
+  .edit-button {
+    border: none;
+    background: transparent;
+    color: #602e17;
+    font-size: 2rem;
+    cursor: pointer;
+  }
+
+  /* Add a shelf button */
+  .add-shelf {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    border: none;
+    color: #602e17;
+    font-family: 'Mansalva', cursive;
+    font-size: 1.5rem;
+    cursor: pointer;
+    margin: 8px 0 0 65px;
+  }
+
+  .plus {
+    font-family: Arial, sans-serif;
+    font-size: 2.5rem;
+    font-weight: bold;
+    line-height: 1;
+  }
+
+  /* Empty shelves message */
+  .shelves-content {
+    min-height: 280px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .empty-message {
+    font-family: 'Mansalva', cursive;
+    font-size: 1.3rem;
+  }
+
+  /* Mobile responsiveness */
+  @media (max-width: 600px) {
+    .dashboard {
+      padding: 20px 14px 50px;
+    }
+
+    .dashboard-header {
+      padding: 18px;
+    }
+
+    .dashboard-header p {
+      font-size: 1.1rem;
+    }
+
+    .profile-icon {
+      width: 52px;
+      height: 52px;
+    }
+
+    .profile-icon svg {
+      width: 40px;
+      height: 40px;
+    }
+
+    .shelves-panel {
+      padding: 20px 16px;
+    }
+
+    .add-shelf {
+      margin-left: 12px;
+    }
+  }
+</style>

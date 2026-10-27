@@ -41,4 +41,3 @@ The Astro application will communicate with Supabase using the official Supabase
 
 **AWS Cognito:** Considered as an AWS-native authentication solution, but Supabase was selected for its straightforward integration and simpler initial setup.
 
-g
