@@ -1,0 +1,967 @@
+{
+    "Resources": {
+        "Vpc8378EB38": {
+            "Type": "AWS::EC2::VPC",
+            "Properties": {
+                "CidrBlock": "10.0.0.0/16",
+                "EnableDnsHostnames": true,
+                "EnableDnsSupport": true,
+                "InstanceTenancy": "default",
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "AstroSsrStack/Vpc"
+                    }
+                ]
+            },
+            "Metadata": {
+                "aws:cdk:path": "AstroSsrStack/Vpc/Resource"
+            }
+        },
+        "VpcPublicSubnet1Subnet5C2D37C4": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+                "AvailabilityZone": "us-east-1a",
+                "CidrBlock": "10.0.0.0/18",
+                "MapPublicIpOnLaunch": true,
+                "Tags": [
+                    {
+                        "Key": "aws-cdk:subnet-name",
+                        "Value": "Public"
+                    },
+                    {
+                        "Key": "aws-cdk:subnet-type",
+                        "Value": "Public"
+                    },
+                    {
+                        "Key": "Name",
+                        "Value": "AstroSsrStack/Vpc/PublicSubnet1"
+                    }
+                ],
+                "VpcId": {
+                    "Ref": "Vpc8378EB38"
+                }
+            },
+            "Metadata": {
+                "aws:cdk:path": "AstroSsrStack/Vpc/PublicSubnet1/Subnet"
+            }
+        },
+        "VpcPublicSubnet1RouteTable6C95E38E": {
+            "Type": "AWS::EC2::RouteTable",
+            "Properties": {
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "AstroSsrStack/Vpc/PublicSubnet1"
+                    }
+                ],
+                "VpcId": {
+                    "Ref": "Vpc8378EB38"
+                }
+            },
+            "Metadata": {
+                "aws:cdk:path": "AstroSsrStack/Vpc/PublicSubnet1/RouteTable"
+            }
+        },
+        "VpcPublicSubnet1RouteTableAssociation97140677": {
+            "Type": "AWS::EC2::SubnetRouteTableAssociation",
+            "Properties": {
+                "RouteTableId": {
+                    "Ref": "VpcPublicSubnet1RouteTable6C95E38E"
+                },
+                "SubnetId": {
+                    "Ref": "VpcPublicSubnet1Subnet5C2D37C4"
+                }
+            },
+            "Metadata": {
+                "aws:cdk:path": "AstroSsrStack/Vpc/PublicSubnet1/RouteTableAssociation"
+            }
+        },
+        "VpcPublicSubnet1DefaultRoute3DA9E72A": {
+            "Type": "AWS::EC2::Route",
+            "Properties": {
+                "DestinationCidrBlock": "0.0.0.0/0",
+                "GatewayId": {
+                    "Ref": "VpcIGWD7BA715C"
+                },
+                "RouteTableId": {
+                    "Ref": "VpcPublicSubnet1RouteTable6C95E38E"
+                }
+            },
+            "DependsOn": [
+                "VpcVPCGWBF912B6E"
+            ],
+            "Metadata": {
+                "aws:cdk:path": "AstroSsrStack/Vpc/PublicSubnet1/DefaultRoute"
+            }
+        },
+        "VpcPublicSubnet2Subnet691E08A3": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+                "AvailabilityZone": "us-east-1b",
+                "CidrBlock": "10.0.64.0/18",
+                "MapPublicIpOnLaunch": true,
+                "Tags": [
+                    {
+                        "Key": "aws-cdk:subnet-name",
+                        "Value": "Public"
+                    },
+                    {
+                        "Key": "aws-cdk:subnet-type",
+                        "Value": "Public"
+                    },
+                    {
+                        "Key": "Name",
+                        "Value": "AstroSsrStack/Vpc/PublicSubnet2"
+                    }
+                ],
+                "VpcId": {
+                    "Ref": "Vpc8378EB38"
+                }
+            },
+            "Metadata": {
+                "aws:cdk:path": "AstroSsrStack/Vpc/PublicSubnet2/Subnet"
+            }
+        },
+        "VpcPublicSubnet2RouteTable94F7E489": {
+            "Type": "AWS::EC2::RouteTable",
+            "Properties": {
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "AstroSsrStack/Vpc/PublicSubnet2"
+                    }
+                ],
+                "VpcId": {
+                    "Ref": "Vpc8378EB38"
+                }
+            },
+            "Metadata": {
+                "aws:cdk:path": "AstroSsrStack/Vpc/PublicSubnet2/RouteTable"
+            }
+        },
+        "VpcPublicSubnet2RouteTableAssociationDD5762D8": {
+            "Type": "AWS::EC2::SubnetRouteTableAssociation",
+            "Properties": {
+                "RouteTableId": {
+                    "Ref": "VpcPublicSubnet2RouteTable94F7E489"
+                },
+                "SubnetId": {
+                    "Ref": "VpcPublicSubnet2Subnet691E08A3"
+                }
+            },
+            "Metadata": {
+                "aws:cdk:path": "AstroSsrStack/Vpc/PublicSubnet2/RouteTableAssociation"
+            }
+        },
+        "VpcPublicSubnet2DefaultRoute97F91067": {
+            "Type": "AWS::EC2::Route",
+            "Properties": {
+                "DestinationCidrBlock": "0.0.0.0/0",
+                "GatewayId": {
+                    "Ref": "VpcIGWD7BA715C"
+                },
+                "RouteTableId": {
+                    "Ref": "VpcPublicSubnet2RouteTable94F7E489"
+                }
+            },
+            "DependsOn": [
+                "VpcVPCGWBF912B6E"
+            ],
+            "Metadata": {
+                "aws:cdk:path": "AstroSsrStack/Vpc/PublicSubnet2/DefaultRoute"
+            }
+        },
+        "VpcIsolatedSubnet1SubnetE48C5737": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+                "AvailabilityZone": "us-east-1a",
+                "CidrBlock": "10.0.128.0/18",
+                "MapPublicIpOnLaunch": false,
+                "Tags": [
+                    {
+                        "Key": "aws-cdk:subnet-name",
+                        "Value": "Isolated"
+                    },
+                    {
+                        "Key": "aws-cdk:subnet-type",
+                        "Value": "Isolated"
+                    },
+                    {
+                        "Key": "Name",
+                        "Value": "AstroSsrStack/Vpc/IsolatedSubnet1"
+                    }
+                ],
+                "VpcId": {
+                    "Ref": "Vpc8378EB38"
+                }
+            },
+            "Metadata": {
+                "aws:cdk:path": "AstroSsrStack/Vpc/IsolatedSubnet1/Subnet"
+            }
+        },
+        "VpcIsolatedSubnet1RouteTable4771E3E5": {
+            "Type": "AWS::EC2::RouteTable",
+            "Properties": {
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "AstroSsrStack/Vpc/IsolatedSubnet1"
+                    }
+                ],
+                "VpcId": {
+                    "Ref": "Vpc8378EB38"
+                }
+            },
+            "Metadata": {
+                "aws:cdk:path": "AstroSsrStack/Vpc/IsolatedSubnet1/RouteTable"
+            }
+        },
+        "VpcIsolatedSubnet1RouteTableAssociationD300FCBB": {
+            "Type": "AWS::EC2::SubnetRouteTableAssociation",
+            "Properties": {
+                "RouteTableId": {
+                    "Ref": "VpcIsolatedSubnet1RouteTable4771E3E5"
+                },
+                "SubnetId": {
+                    "Ref": "VpcIsolatedSubnet1SubnetE48C5737"
+                }
+            },
+            "Metadata": {
+                "aws:cdk:path": "AstroSsrStack/Vpc/IsolatedSubnet1/RouteTableAssociation"
+            }
+        },
+        "VpcIsolatedSubnet2Subnet16364B91": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+                "AvailabilityZone": "us-east-1b",
+                "CidrBlock": "10.0.192.0/18",
+                "MapPublicIpOnLaunch": false,
+                "Tags": [
+                    {
+                        "Key": "aws-cdk:subnet-name",
+                        "Value": "Isolated"
+                    },
+                    {
+                        "Key": "aws-cdk:subnet-type",
+                        "Value": "Isolated"
+                    },
+                    {
+                        "Key": "Name",
+                        "Value": "AstroSsrStack/Vpc/IsolatedSubnet2"
+                    }
+                ],
+                "VpcId": {
+                    "Ref": "Vpc8378EB38"
+                }
+            },
+            "Metadata": {
+                "aws:cdk:path": "AstroSsrStack/Vpc/IsolatedSubnet2/Subnet"
+            }
+        },
+        "VpcIsolatedSubnet2RouteTable1D30AF7D": {
+            "Type": "AWS::EC2::RouteTable",
+            "Properties": {
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "AstroSsrStack/Vpc/IsolatedSubnet2"
+                    }
+                ],
+                "VpcId": {
+                    "Ref": "Vpc8378EB38"
+                }
+            },
+            "Metadata": {
+                "aws:cdk:path": "AstroSsrStack/Vpc/IsolatedSubnet2/RouteTable"
+            }
+        },
+        "VpcIsolatedSubnet2RouteTableAssociationF7B18CCA": {
+            "Type": "AWS::EC2::SubnetRouteTableAssociation",
+            "Properties": {
+                "RouteTableId": {
+                    "Ref": "VpcIsolatedSubnet2RouteTable1D30AF7D"
+                },
+                "SubnetId": {
+                    "Ref": "VpcIsolatedSubnet2Subnet16364B91"
+                }
+            },
+            "Metadata": {
+                "aws:cdk:path": "AstroSsrStack/Vpc/IsolatedSubnet2/RouteTableAssociation"
+            }
+        },
+        "VpcIGWD7BA715C": {
+            "Type": "AWS::EC2::InternetGateway",
+            "Properties": {
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "AstroSsrStack/Vpc"
+                    }
+                ]
+            },
+            "Metadata": {
+                "aws:cdk:path": "AstroSsrStack/Vpc/IGW"
+            }
+        },
+        "VpcVPCGWBF912B6E": {
+            "Type": "AWS::EC2::VPCGatewayAttachment",
+            "Properties": {
+                "InternetGatewayId": {
+                    "Ref": "VpcIGWD7BA715C"
+                },
+                "VpcId": {
+                    "Ref": "Vpc8378EB38"
+                }
+            },
+            "Metadata": {
+                "aws:cdk:path": "AstroSsrStack/Vpc/VPCGW"
+            }
+        },
+        "VpcRestrictDefaultSecurityGroupCustomResourceC73DA2BE": {
+            "Type": "Custom::VpcRestrictDefaultSG",
+            "Properties": {
+                "ServiceToken": {
+                    "Fn::GetAtt": [
+                        "CustomVpcRestrictDefaultSGCustomResourceProviderHandlerDC833E5E",
+                        "Arn"
+                    ]
+                },
+                "DefaultSecurityGroupId": {
+                    "Fn::GetAtt": [
+                        "Vpc8378EB38",
+                        "DefaultSecurityGroup"
+                    ]
+                },
+                "Account": "556425006410"
+            },
+            "UpdateReplacePolicy": "Delete",
+            "DeletionPolicy": "Delete",
+            "Metadata": {
+                "aws:cdk:path": "AstroSsrStack/Vpc/RestrictDefaultSecurityGroupCustomResource/Default"
+            }
+        },
+        "CustomVpcRestrictDefaultSGCustomResourceProviderRole26592FE0": {
+            "Type": "AWS::IAM::Role",
+            "Properties": {
+                "AssumeRolePolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                        {
+                            "Action": "sts:AssumeRole",
+                            "Effect": "Allow",
+                            "Principal": {
+                                "Service": "lambda.amazonaws.com"
+                            }
+                        }
+                    ]
+                },
+                "ManagedPolicyArns": [
+                    {
+                        "Fn::Sub": "arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                    }
+                ],
+                "Policies": [
+                    {
+                        "PolicyName": "Inline",
+                        "PolicyDocument": {
+                            "Version": "2012-10-17",
+                            "Statement": [
+                                {
+                                    "Effect": "Allow",
+                                    "Action": [
+                                        "ec2:AuthorizeSecurityGroupIngress",
+                                        "ec2:AuthorizeSecurityGroupEgress",
+                                        "ec2:RevokeSecurityGroupIngress",
+                                        "ec2:RevokeSecurityGroupEgress"
+                                    ],
+                                    "Resource": [
+                                        {
+                                            "Fn::Join": [
+                                                "",
+                                                [
+                                                    "arn:aws:ec2:us-east-1:556425006410:security-group/",
+                                                    {
+                                                        "Fn::GetAtt": [
+                                                            "Vpc8378EB38",
+                                                            "DefaultSecurityGroup"
+                                                        ]
+                                                    }
+                                                ]
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    }
+                ]
+            },
+            "Metadata": {
+                "aws:cdk:path": "AstroSsrStack/Custom::VpcRestrictDefaultSGCustomResourceProvider/Role"
+            }
+        },
+        "CustomVpcRestrictDefaultSGCustomResourceProviderHandlerDC833E5E": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": {
+                "Code": {
+                    "S3Bucket": "cdk-hnb659fds-assets-556425006410-us-east-1",
+                    "S3Key": "02b51ab524e7bcf8f477de3e71e5f9a72e448301b26ba62e9e75a14f9c55a093.zip"
+                },
+                "Timeout": 900,
+                "MemorySize": 128,
+                "Handler": "__entrypoint__.handler",
+                "Role": {
+                    "Fn::GetAtt": [
+                        "CustomVpcRestrictDefaultSGCustomResourceProviderRole26592FE0",
+                        "Arn"
+                    ]
+                },
+                "Runtime": "nodejs24.x",
+                "Description": "Lambda function for removing all inbound/outbound rules from the VPC default security group"
+            },
+            "DependsOn": [
+                "CustomVpcRestrictDefaultSGCustomResourceProviderRole26592FE0"
+            ],
+            "Metadata": {
+                "aws:cdk:path": "AstroSsrStack/Custom::VpcRestrictDefaultSGCustomResourceProvider/Handler",
+                "aws:asset:path": "asset.02b51ab524e7bcf8f477de3e71e5f9a72e448301b26ba62e9e75a14f9c55a093",
+                "aws:asset:property": "Code"
+            }
+        },
+        "ClusterEB0386A7": {
+            "Type": "AWS::ECS::Cluster",
+            "Metadata": {
+                "aws:cdk:path": "AstroSsrStack/Cluster/Resource"
+            }
+        },
+        "AstroServiceLB3F27AF6E": {
+            "Type": "AWS::ElasticLoadBalancingV2::LoadBalancer",
+            "Properties": {
+                "LoadBalancerAttributes": [
+                    {
+                        "Key": "deletion_protection.enabled",
+                        "Value": "false"
+                    }
+                ],
+                "Scheme": "internet-facing",
+                "SecurityGroups": [
+                    {
+                        "Fn::GetAtt": [
+                            "AstroServiceLBSecurityGroupE469ADAE",
+                            "GroupId"
+                        ]
+                    }
+                ],
+                "Subnets": [
+                    {
+                        "Ref": "VpcPublicSubnet1Subnet5C2D37C4"
+                    },
+                    {
+                        "Ref": "VpcPublicSubnet2Subnet691E08A3"
+                    }
+                ],
+                "Type": "application"
+            },
+            "DependsOn": [
+                "VpcPublicSubnet1DefaultRoute3DA9E72A",
+                "VpcPublicSubnet1RouteTableAssociation97140677",
+                "VpcPublicSubnet2DefaultRoute97F91067",
+                "VpcPublicSubnet2RouteTableAssociationDD5762D8"
+            ],
+            "Metadata": {
+                "aws:cdk:path": "AstroSsrStack/AstroService/LB/Resource"
+            }
+        },
+        "AstroServiceLBSecurityGroupE469ADAE": {
+            "Type": "AWS::EC2::SecurityGroup",
+            "Properties": {
+                "GroupDescription": "Automatically created Security Group for ELB AstroSsrStackAstroServiceLBE1E9DD6C",
+                "SecurityGroupIngress": [
+                    {
+                        "CidrIp": "0.0.0.0/0",
+                        "Description": "Allow from anyone on port 80",
+                        "FromPort": 80,
+                        "IpProtocol": "tcp",
+                        "ToPort": 80
+                    }
+                ],
+                "VpcId": {
+                    "Ref": "Vpc8378EB38"
+                }
+            },
+            "Metadata": {
+                "aws:cdk:path": "AstroSsrStack/AstroService/LB/SecurityGroup/Resource"
+            }
+        },
+        "AstroServiceLBSecurityGrouptoAstroSsrStackAstroServiceSecurityGroup663AD0724321CAA8A558": {
+            "Type": "AWS::EC2::SecurityGroupEgress",
+            "Properties": {
+                "Description": "Load balancer to target",
+                "DestinationSecurityGroupId": {
+                    "Fn::GetAtt": [
+                        "AstroServiceSecurityGroupD9B312E9",
+                        "GroupId"
+                    ]
+                },
+                "FromPort": 4321,
+                "GroupId": {
+                    "Fn::GetAtt": [
+                        "AstroServiceLBSecurityGroupE469ADAE",
+                        "GroupId"
+                    ]
+                },
+                "IpProtocol": "tcp",
+                "ToPort": 4321
+            },
+            "Metadata": {
+                "aws:cdk:path": "AstroSsrStack/AstroService/LB/SecurityGroup/to AstroSsrStackAstroServiceSecurityGroup663AD072:4321"
+            }
+        },
+        "AstroServiceLBPublicListenerA4754D22": {
+            "Type": "AWS::ElasticLoadBalancingV2::Listener",
+            "Properties": {
+                "DefaultActions": [
+                    {
+                        "TargetGroupArn": {
+                            "Ref": "AstroServiceLBPublicListenerECSGroupE14FCBD0"
+                        },
+                        "Type": "forward"
+                    }
+                ],
+                "LoadBalancerArn": {
+                    "Ref": "AstroServiceLB3F27AF6E"
+                },
+                "Port": 80,
+                "Protocol": "HTTP"
+            },
+            "Metadata": {
+                "aws:cdk:path": "AstroSsrStack/AstroService/LB/PublicListener/Resource"
+            }
+        },
+        "AstroServiceLBPublicListenerECSGroupE14FCBD0": {
+            "Type": "AWS::ElasticLoadBalancingV2::TargetGroup",
+            "Properties": {
+                "HealthCheckPath": "/api/health",
+                "Port": 80,
+                "Protocol": "HTTP",
+                "TargetGroupAttributes": [
+                    {
+                        "Key": "stickiness.enabled",
+                        "Value": "false"
+                    }
+                ],
+                "TargetType": "ip",
+                "VpcId": {
+                    "Ref": "Vpc8378EB38"
+                }
+            },
+            "Metadata": {
+                "aws:cdk:path": "AstroSsrStack/AstroService/LB/PublicListener/ECSGroup/Resource"
+            }
+        },
+        "AstroServiceTaskDefTaskRoleBB737E50": {
+            "Type": "AWS::IAM::Role",
+            "Properties": {
+                "AssumeRolePolicyDocument": {
+                    "Statement": [
+                        {
+                            "Action": "sts:AssumeRole",
+                            "Effect": "Allow",
+                            "Principal": {
+                                "Service": "ecs-tasks.amazonaws.com"
+                            }
+                        }
+                    ],
+                    "Version": "2012-10-17"
+                }
+            },
+            "Metadata": {
+                "aws:cdk:path": "AstroSsrStack/AstroService/TaskDef/TaskRole/Resource"
+            }
+        },
+        "AstroServiceTaskDef5250DF2D": {
+            "Type": "AWS::ECS::TaskDefinition",
+            "Properties": {
+                "ContainerDefinitions": [
+                    {
+                        "Essential": true,
+                        "Image": {
+                            "Fn::Sub": "556425006410.dkr.ecr.us-east-1.${AWS::URLSuffix}/cdk-hnb659fds-container-assets-556425006410-us-east-1:e5a9cd2cf12500b9087cc679f3bc410398592f508722c4a0b851467f8b5872e9"
+                        },
+                        "LogConfiguration": {
+                            "LogDriver": "awslogs",
+                            "Options": {
+                                "awslogs-group": {
+                                    "Ref": "AstroServiceTaskDefwebLogGroup543484A5"
+                                },
+                                "awslogs-stream-prefix": "AstroService",
+                                "awslogs-region": "us-east-1"
+                            }
+                        },
+                        "Name": "web",
+                        "PortMappings": [
+                            {
+                                "ContainerPort": 4321,
+                                "Protocol": "tcp"
+                            }
+                        ]
+                    }
+                ],
+                "Cpu": "256",
+                "ExecutionRoleArn": {
+                    "Fn::GetAtt": [
+                        "AstroServiceTaskDefExecutionRole3B701033",
+                        "Arn"
+                    ]
+                },
+                "Family": "AstroSsrStackAstroServiceTaskDefA9465D7A",
+                "Memory": "512",
+                "NetworkMode": "awsvpc",
+                "RequiresCompatibilities": [
+                    "FARGATE"
+                ],
+                "TaskRoleArn": {
+                    "Fn::GetAtt": [
+                        "AstroServiceTaskDefTaskRoleBB737E50",
+                        "Arn"
+                    ]
+                }
+            },
+            "Metadata": {
+                "aws:cdk:path": "AstroSsrStack/AstroService/TaskDef/Resource"
+            }
+        },
+        "AstroServiceTaskDefwebLogGroup543484A5": {
+            "Type": "AWS::Logs::LogGroup",
+            "UpdateReplacePolicy": "Retain",
+            "DeletionPolicy": "Retain",
+            "Metadata": {
+                "aws:cdk:path": "AstroSsrStack/AstroService/TaskDef/web/LogGroup/Resource"
+            }
+        },
+        "AstroServiceTaskDefExecutionRole3B701033": {
+            "Type": "AWS::IAM::Role",
+            "Properties": {
+                "AssumeRolePolicyDocument": {
+                    "Statement": [
+                        {
+                            "Action": "sts:AssumeRole",
+                            "Effect": "Allow",
+                            "Principal": {
+                                "Service": "ecs-tasks.amazonaws.com"
+                            }
+                        }
+                    ],
+                    "Version": "2012-10-17"
+                }
+            },
+            "Metadata": {
+                "aws:cdk:path": "AstroSsrStack/AstroService/TaskDef/ExecutionRole/Resource"
+            }
+        },
+        "AstroServiceTaskDefExecutionRoleDefaultPolicyAFA0CAD2": {
+            "Type": "AWS::IAM::Policy",
+            "Properties": {
+                "PolicyDocument": {
+                    "Statement": [
+                        {
+                            "Action": [
+                                "ecr:BatchCheckLayerAvailability",
+                                "ecr:BatchGetImage",
+                                "ecr:GetDownloadUrlForLayer"
+                            ],
+                            "Effect": "Allow",
+                            "Resource": "arn:aws:ecr:us-east-1:556425006410:repository/cdk-hnb659fds-container-assets-556425006410-us-east-1"
+                        },
+                        {
+                            "Action": "ecr:GetAuthorizationToken",
+                            "Effect": "Allow",
+                            "Resource": "*"
+                        },
+                        {
+                            "Action": [
+                                "logs:CreateLogStream",
+                                "logs:PutLogEvents"
+                            ],
+                            "Effect": "Allow",
+                            "Resource": {
+                                "Fn::GetAtt": [
+                                    "AstroServiceTaskDefwebLogGroup543484A5",
+                                    "Arn"
+                                ]
+                            }
+                        }
+                    ],
+                    "Version": "2012-10-17"
+                },
+                "PolicyName": "AstroServiceTaskDefExecutionRoleDefaultPolicyAFA0CAD2",
+                "Roles": [
+                    {
+                        "Ref": "AstroServiceTaskDefExecutionRole3B701033"
+                    }
+                ]
+            },
+            "Metadata": {
+                "aws:cdk:path": "AstroSsrStack/AstroService/TaskDef/ExecutionRole/DefaultPolicy/Resource"
+            }
+        },
+        "AstroService03ADA2BA": {
+            "Type": "AWS::ECS::Service",
+            "Properties": {
+                "Cluster": {
+                    "Ref": "ClusterEB0386A7"
+                },
+                "DeploymentConfiguration": {
+                    "DeploymentCircuitBreaker": {
+                        "Enable": true,
+                        "Rollback": true
+                    },
+                    "MaximumPercent": 200,
+                    "MinimumHealthyPercent": 100
+                },
+                "DesiredCount": 1,
+                "EnableECSManagedTags": false,
+                "HealthCheckGracePeriodSeconds": 60,
+                "LaunchType": "FARGATE",
+                "LoadBalancers": [
+                    {
+                        "ContainerName": "web",
+                        "ContainerPort": 4321,
+                        "TargetGroupArn": {
+                            "Ref": "AstroServiceLBPublicListenerECSGroupE14FCBD0"
+                        }
+                    }
+                ],
+                "NetworkConfiguration": {
+                    "AwsvpcConfiguration": {
+                        "AssignPublicIp": "ENABLED",
+                        "SecurityGroups": [
+                            {
+                                "Fn::GetAtt": [
+                                    "AstroServiceSecurityGroupD9B312E9",
+                                    "GroupId"
+                                ]
+                            }
+                        ],
+                        "Subnets": [
+                            {
+                                "Ref": "VpcPublicSubnet1Subnet5C2D37C4"
+                            },
+                            {
+                                "Ref": "VpcPublicSubnet2Subnet691E08A3"
+                            }
+                        ]
+                    }
+                },
+                "TaskDefinition": {
+                    "Ref": "AstroServiceTaskDef5250DF2D"
+                }
+            },
+            "DependsOn": [
+                "AstroServiceLBPublicListenerECSGroupE14FCBD0",
+                "AstroServiceLBPublicListenerA4754D22",
+                "AstroServiceTaskDefTaskRoleBB737E50"
+            ],
+            "Metadata": {
+                "aws:cdk:path": "AstroSsrStack/AstroService/Service/Service"
+            }
+        },
+        "AstroServiceSecurityGroupD9B312E9": {
+            "Type": "AWS::EC2::SecurityGroup",
+            "Properties": {
+                "GroupDescription": "AstroSsrStack/AstroService/Service/SecurityGroup",
+                "SecurityGroupEgress": [
+                    {
+                        "CidrIp": "0.0.0.0/0",
+                        "Description": "Allow all outbound traffic by default",
+                        "IpProtocol": "-1"
+                    }
+                ],
+                "VpcId": {
+                    "Ref": "Vpc8378EB38"
+                }
+            },
+            "DependsOn": [
+                "AstroServiceTaskDefTaskRoleBB737E50"
+            ],
+            "Metadata": {
+                "aws:cdk:path": "AstroSsrStack/AstroService/Service/SecurityGroup/Resource"
+            }
+        },
+        "AstroServiceSecurityGroupfromAstroSsrStackAstroServiceLBSecurityGroupBBE37AE64321829EB8E9": {
+            "Type": "AWS::EC2::SecurityGroupIngress",
+            "Properties": {
+                "Description": "Load balancer to target",
+                "FromPort": 4321,
+                "GroupId": {
+                    "Fn::GetAtt": [
+                        "AstroServiceSecurityGroupD9B312E9",
+                        "GroupId"
+                    ]
+                },
+                "IpProtocol": "tcp",
+                "SourceSecurityGroupId": {
+                    "Fn::GetAtt": [
+                        "AstroServiceLBSecurityGroupE469ADAE",
+                        "GroupId"
+                    ]
+                },
+                "ToPort": 4321
+            },
+            "DependsOn": [
+                "AstroServiceTaskDefTaskRoleBB737E50"
+            ],
+            "Metadata": {
+                "aws:cdk:path": "AstroSsrStack/AstroService/Service/SecurityGroup/from AstroSsrStackAstroServiceLBSecurityGroupBBE37AE6:4321"
+            }
+        },
+        "AstroDistributionE75DA217": {
+            "Type": "AWS::CloudFront::Distribution",
+            "Properties": {
+                "DistributionConfig": {
+                    "DefaultCacheBehavior": {
+                        "AllowedMethods": [
+                            "GET",
+                            "HEAD",
+                            "OPTIONS",
+                            "PUT",
+                            "PATCH",
+                            "POST",
+                            "DELETE"
+                        ],
+                        "CachePolicyId": "4135ea2d-6df8-44a3-9df3-4b5a84be39ad",
+                        "Compress": true,
+                        "OriginRequestPolicyId": "b689b0a8-53d0-40ab-baf2-68738e2966ac",
+                        "TargetOriginId": "AstroSsrStackAstroDistributionOrigin1CEB78CD6",
+                        "ViewerProtocolPolicy": "redirect-to-https"
+                    },
+                    "Enabled": true,
+                    "HttpVersion": "http2",
+                    "IPV6Enabled": true,
+                    "Origins": [
+                        {
+                            "CustomOriginConfig": {
+                                "OriginProtocolPolicy": "http-only",
+                                "OriginSSLProtocols": [
+                                    "TLSv1.2"
+                                ]
+                            },
+                            "DomainName": {
+                                "Fn::GetAtt": [
+                                    "AstroServiceLB3F27AF6E",
+                                    "DNSName"
+                                ]
+                            },
+                            "Id": "AstroSsrStackAstroDistributionOrigin1CEB78CD6"
+                        }
+                    ]
+                }
+            },
+            "Metadata": {
+                "aws:cdk:path": "AstroSsrStack/AstroDistribution/Resource"
+            }
+        },
+        "CDKMetadata": {
+            "Type": "AWS::CDK::Metadata",
+            "Properties": {
+                "Analytics": "v2:deflate64:H4sIAAAAAAAA/+1WwY7bNhD9luhY0GpiFCmwN9ubBga2XcNe5FBjsRiTY3liilTIoVxX8L8XpCRbzm7aoshhDz0YFt/MPD4OZ0Ya5+Ofx/nbN3DwI6n2I02bvFkxyL2Ag39qUI7z5lMl101Wwh+TP312k/2QicwAfwTGAxxb5PQoZlvzaTETi7DRJFdhY5DXTQY1kIYNaeLj79ZgF19Xcq66Z0nKTbWV+25dQtWSzKt7cwfByF12wy6gyKiq38++cgfvqTDzqn4/Ucqh9/dm5hCYrGmliVei4tUIeR0q2pJpCyU+LW1gfICNxgt+wSbeW0mJ4OwsFo5qYPzuxbYF7V9Bev+X8b1kpFKbG0ZnsB9c3cDqVhNmkLsSDYsVyuCIjx+dDdW6iUq7fRR66ag684oMtLaHidb3gTc2GNXJTOdWam6KqGYZNGY36yaTYOZGk8EWadtHWmNQRs5+uAZDXwJ22UmDI8KJ+LFj/jAkjtbOKVImn170i0oGAR1r24vDgz8D2i2fwR3zSaD0eTPTwTO6QdZa6g4Xv4ArILa039/ilgzFcyc9L/xS5LWrmFnDQAbdAOtIV+hqkrjuI7t1UvZUAcfb9/mkqjTJVBt3FtQUNBiJ6ppDoAbPJLUFtUkeZIp6nDcvR7v1UPHQIIYB5BnNxfnqmL1xGPAArkA+38ZgeRIEZd4srcY49rwPJarpMbtpssqRkVSBnkhpg+FLi4QSY8BEXvoiVcd/jhaZsxp/gxKHpfZgFz3JwmqSx1j6p7ZwU5O1LXC2xQz8s/Hveb9tfWzfFhpFC7e13232YKPlmYbnsFIrBsY4HvzVtv8WTjJaBbEe3RN4j+zzWyv36OYlFPENhxxt+RIr64mtO07Bo9C28HlzZ4t+IDlkNF8Nt958ElLboLbOGs6bW/LsaBNSlzWZwi0EzVPcQU3WxQu3jgrqp1lNeEC3cJattOc8Zg4VOZQ8YjvaMVc+jmyQu/M1peCWaYlfAnq+sqQhiepX5J1V3fdiq3qo73QSS/Q2OIliFjzbsl+eO/ob9oWzNSl0KVspjSuGgkwRY+4DV4FPwliF+Wf/Yz3+KR+/y9+++eyJRi4YphLzZfv/F6igYTcPCwAA"
+            },
+            "Metadata": {
+                "aws:cdk:path": "AstroSsrStack/CDKMetadata/Default"
+            }
+        }
+    },
+    "Outputs": {
+        "AstroServiceLoadBalancerDNSF6CFB4A9": {
+            "Value": {
+                "Fn::GetAtt": [
+                    "AstroServiceLB3F27AF6E",
+                    "DNSName"
+                ]
+            }
+        },
+        "AstroServiceServiceURL9F42B880": {
+            "Value": {
+                "Fn::Join": [
+                    "",
+                    [
+                        "http://",
+                        {
+                            "Fn::GetAtt": [
+                                "AstroServiceLB3F27AF6E",
+                                "DNSName"
+                            ]
+                        }
+                    ]
+                ]
+            }
+        },
+        "CloudFrontUrl": {
+            "Value": {
+                "Fn::Join": [
+                    "",
+                    [
+                        "https://",
+                        {
+                            "Fn::GetAtt": [
+                                "AstroDistributionE75DA217",
+                                "DomainName"
+                            ]
+                        }
+                    ]
+                ]
+            }
+        },
+        "SiteUrl": {
+            "Value": {
+                "Fn::Join": [
+                    "",
+                    [
+                        "http://",
+                        {
+                            "Fn::GetAtt": [
+                                "AstroServiceLB3F27AF6E",
+                                "DNSName"
+                            ]
+                        }
+                    ]
+                ]
+            }
+        }
+    },
+    "Parameters": {
+        "BootstrapVersion": {
+            "Type": "AWS::SSM::Parameter::Value<String>",
+            "Default": "/cdk-bootstrap/hnb659fds/version",
+            "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+        }
+    },
+    "Rules": {
+        "CheckBootstrapVersion": {
+            "Assertions": [
+                {
+                    "Assert": {
+                        "Fn::Not": [
+                            {
+                                "Fn::Contains": [
+                                    [
+                                        "1",
+                                        "2",
+                                        "3",
+                                        "4",
+                                        "5"
+                                    ],
+                                    {
+                                        "Ref": "BootstrapVersion"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+                }
+            ]
+        }
+    }
+}

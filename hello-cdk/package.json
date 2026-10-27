@@ -4,7 +4,8 @@
   "scripts": {
     "build": "tsc",
     "watch": "tsc -w",
-    "test": "jest",
+    "test": "jest --runInBand",
+    "test:unit": "jest --runInBand",
     "cdk": "cdk"
   },
   "devDependencies": {

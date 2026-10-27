@@ -1,9 +1,4 @@
-import dotenv from 'dotenv';
-import * as path from 'node:path';
-
-dotenv.config({
-  path: path.resolve(__dirname, '../../.env'),
-});
+import * as logs from 'aws-cdk-lib/aws-logs';
 import * as cdk from 'aws-cdk-lib';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import * as ecs from 'aws-cdk-lib/aws-ecs';
@@ -25,6 +20,10 @@ if (!supabaseUrl || !supabaseKey) {
 
     const vpc = new ec2.Vpc(this, 'Vpc', { maxAzs: 2, natGateways: 0 });
     const cluster = new ecs.Cluster(this, 'Cluster', { vpc });
+    const logGroup = new logs.LogGroup(this, 'ApplicationLogs', {
+  retention: logs.RetentionDays.ONE_WEEK,
+  removalPolicy: cdk.RemovalPolicy.RETAIN,
+});
     const service = new ecsPatterns.ApplicationLoadBalancedFargateService(this, 'AstroService', {
       cluster,
       cpu: 256,
@@ -35,16 +34,12 @@ if (!supabaseUrl || !supabaseKey) {
       circuitBreaker: { rollback: true },
       minHealthyPercent: 100,
       taskImageOptions: {
-  image: ecs.ContainerImage.fromAsset(
-    path.resolve(__dirname, '../..'),
-    {
-      buildArgs: {
-        PUBLIC_SUPABASE_URL: supabaseUrl,
-        PUBLIC_SUPABASE_PUBLISHABLE_KEY: supabaseKey,
-      },
-    }
-  ),
+  image: ecs.ContainerImage.fromAsset(path.resolve(__dirname, '../..')),
   containerPort: 4321,
+  logDriver: ecs.LogDrivers.awsLogs({
+    streamPrefix: 'astro',
+    logGroup,
+  }),
 },
     });
 
