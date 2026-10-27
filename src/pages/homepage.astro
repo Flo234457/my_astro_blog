@@ -447,9 +447,33 @@ async function loadShelves() {
     return;
   }
 
+
+  // Get all book records belonging to the user's shelves
+  const shelfIds = shelves.map((shelf) => shelf.id);
+
+  const { data: books, error: booksError } = await supabase
+    .from('books')
+    .select('shelf_id')
+    .in('shelf_id', shelfIds);
+
+  if (booksError) {
+    console.error('Failed to load book counts:', booksError.message);
+  }
+
+  // Count how many books belong to each shelf
+  const bookCounts = new Map<string, number>();
+
+  for (const book of books ?? []) {
+    bookCounts.set(
+      book.shelf_id,
+      (bookCounts.get(book.shelf_id) ?? 0) + 1
+    );
+  }
+
   container.replaceChildren();
 
   for (const shelf of shelves) {
+
     const link = document.createElement('a');
     link.className = 'shelf-card';
     link.href = `/shelves/${encodeURIComponent(shelf.id)}`;
@@ -469,8 +493,10 @@ async function loadShelves() {
     const date = document.createElement('p');
     date.textContent = `Created: ${new Date(shelf.created_at).toLocaleDateString()}`;
 
-    const count = document.createElement('p');
-    count.textContent = 'Books: 0';
+const count = document.createElement('p');
+count.textContent = booksError
+  ? 'Books: unavailable'
+  : `Books: ${bookCounts.get(shelf.id) ?? 0}`;
 
     details.append(title, date, count);
     link.append(image, details);
