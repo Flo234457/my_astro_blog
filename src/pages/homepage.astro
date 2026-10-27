@@ -46,15 +46,70 @@ import dashboardBg from '../assets/homepagebg.svg';
         </button>
       </div>
 
-      <button class="add-shelf" type="button">
-        <span class="plus">+</span>
-        Add a shelf
-      </button>
+      <button class="add-shelf" id="open-shelf-modal" type="button">
+  <span class="plus">+</span>
+  Add a shelf
+</button>
 
-      <div class="shelves-content">
-        <p class="empty-message">No shelves yet...</p>
-      </div>
+      <div class="shelves-content" id="shelves-content">
+  <p class="empty-message">Loading your shelves...</p>
+</div>
     </section>
+    <dialog id="shelf-modal" class="shelf-modal">
+  <form id="shelf-form">
+    <div class="modal-header">
+      <h2>Create a Shelf</h2>
+      <button
+        type="button"
+        id="close-shelf-modal"
+        class="close-modal"
+        aria-label="Close popup"
+      >
+        ×
+      </button>
+    </div>
+
+    <label for="shelf-name">Shelf Name</label>
+    <input
+      id="shelf-name"
+      name="shelf-name"
+      type="text"
+      placeholder="e.g. My Favourite Books"
+      maxlength="100"
+      required
+    />
+
+    <p class="cover-label">Choose a Cover</p>
+
+    <div class="cover-options">
+      <label class="cover-option">
+        <input
+          type="radio"
+          name="shelf-cover"
+          value="/shelfCovers/plaid.png"
+          required
+        />
+        <img src="/shelfCovers/plaid.png" alt="Plaid cover" />
+        <span>Plaid</span>
+      </label>
+
+      <label class="cover-option">
+        <input
+          type="radio"
+          name="shelf-cover"
+          value="/shelfCovers/flower.png"
+          required
+        />
+        <img src="/shelfCovers/flower.png" alt="Flower cover" />
+        <span>Flower</span>
+      </label>
+    </div>
+
+    <button class="create-shelf-button" type="submit">
+      Create Shelf
+    </button>
+  </form>
+</dialog>
   </main>
 </Layout>
 
@@ -173,14 +228,52 @@ import dashboardBg from '../assets/homepagebg.svg';
     line-height: 1;
   }
 
-  /* Empty shelves message */
   .shelves-content {
-    min-height: 280px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+  min-height: 280px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 18px;
+  padding-top: 20px;
+}
 
+.shelves-content:has(.shelf-card) {
+  justify-content: flex-start;
+}
+
+:global(.shelf-card) {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  padding: 16px;
+  background: #fff3e3;
+  border-radius: 12px;
+  color: #602e17;
+  text-decoration: none;
+  transition: transform 0.2s ease;
+}
+
+:global(.shelf-card:hover) {
+  transform: translateY(-3px);
+}
+
+:global(.shelf-card img) {
+  width: 110px;
+  height: 110px;
+  object-fit: cover;
+  border-radius: 9px;
+}
+
+:global(.shelf-details h3) {
+  font-family: 'Emilys Candy', cursive;
+  font-size: 1.6rem;
+  margin: 0 0 8px;
+}
+
+:global(.shelf-details p) {
+  font-family: 'Mansalva', cursive;
+  margin: 4px 0;
+}
   .empty-message {
     font-family: 'Mansalva', cursive;
     font-size: 1.3rem;
@@ -218,4 +311,247 @@ import dashboardBg from '../assets/homepagebg.svg';
       margin-left: 12px;
     }
   }
+  .shelf-modal {
+  width: min(90%, 470px);
+  box-sizing: border-box;
+  border: 3px solid #602e17;
+  border-radius: 18px;
+  background: #ffe6c5;
+  color: #602e17;
+  padding: 28px;
+  box-shadow: 8px 10px 0 #c58b5b;
+}
+
+.shelf-modal::backdrop {
+  background: rgba(35, 18, 12, 0.65);
+}
+
+.shelf-modal form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-header h2 {
+  font-family: 'Emilys Candy', cursive;
+  font-size: 2rem;
+  font-weight: normal;
+  margin: 0;
+}
+
+.close-modal {
+  border: none;
+  background: transparent;
+  color: #602e17;
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+.shelf-modal label,
+.cover-label {
+  font-family: 'Mansalva', cursive;
+  font-size: 1.2rem;
+}
+
+.shelf-modal input[type="text"] {
+  padding: 12px;
+  border: 2px solid #c58b5b;
+  border-radius: 9px;
+  background: #fff9ed;
+  color: #602e17;
+  font-size: 1rem;
+}
+
+.cover-options {
+  display: flex;
+  gap: 18px;
+}
+
+.cover-option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  cursor: pointer;
+}
+
+.cover-option img {
+  width: 110px;
+  height: 110px;
+  object-fit: cover;
+  border: 3px solid transparent;
+  border-radius: 10px;
+}
+
+.cover-option input:checked + img {
+  border-color: #602e17;
+}
+
+.create-shelf-button {
+  background: #602e17;
+  color: #ffe6c5;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  font-family: 'Mansalva', cursive;
+  font-size: 1.3rem;
+  cursor: pointer;
+}
 </style>
+
+<script>
+  import { supabase } from '../lib/supabase';
+
+  const modal = document.querySelector<HTMLDialogElement>('#shelf-modal');
+  const openButton = document.querySelector<HTMLButtonElement>('#open-shelf-modal');
+  const closeButton = document.querySelector<HTMLButtonElement>('#close-shelf-modal');
+  const form = document.querySelector<HTMLFormElement>('#shelf-form');
+
+  const allowedCovers = [
+  '/shelfCovers/plaid.png',
+  '/shelfCovers/flower.png'
+];
+async function loadShelves() {
+  const container = document.querySelector<HTMLElement>('#shelves-content');
+
+  if (!container) return;
+
+  const { data: { user }, error: authError } =
+    await supabase.auth.getUser();
+
+  if (authError || !user) {
+    container.textContent = 'Please sign in to view your shelves.';
+    return;
+  }
+
+  const { data: shelves, error } = await supabase
+    .from('shelves')
+    .select('id, name, cover_image, created_at')
+    .eq('user_id', user.id)
+    .order('created_at', { ascending: false });
+
+  if (error) {
+    console.error('Failed to load shelves:', error.message);
+    container.textContent = 'Could not load your shelves.';
+    return;
+  }
+
+  if (!shelves || shelves.length === 0) {
+    container.textContent = 'No shelves yet...';
+    return;
+  }
+
+  container.replaceChildren();
+
+  for (const shelf of shelves) {
+    const link = document.createElement('a');
+    link.className = 'shelf-card';
+    link.href = `/shelves/${encodeURIComponent(shelf.id)}`;
+
+    const image = document.createElement('img');
+    image.src = allowedCovers.includes(shelf.cover_image)
+      ? shelf.cover_image
+      : '/shelfCovers/plaid.png';
+    image.alt = `${shelf.name} shelf cover`;
+
+    const details = document.createElement('div');
+    details.className = 'shelf-details';
+
+    const title = document.createElement('h3');
+    title.textContent = shelf.name;
+
+    const date = document.createElement('p');
+    date.textContent = `Created: ${new Date(shelf.created_at).toLocaleDateString()}`;
+
+    const count = document.createElement('p');
+    count.textContent = 'Books: 0';
+
+    details.append(title, date, count);
+    link.append(image, details);
+    container.append(link);
+  }
+}
+
+loadShelves();
+  openButton?.addEventListener('click', () => {
+    modal?.showModal();
+  });
+
+  closeButton?.addEventListener('click', () => {
+    modal?.close();
+  });
+
+  form?.addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    if (!form) return;
+
+    const nameInput = form.querySelector<HTMLInputElement>('#shelf-name');
+    const selectedCover = form.querySelector<HTMLInputElement>(
+      'input[name="shelf-cover"]:checked'
+    );
+    const submitButton = form.querySelector<HTMLButtonElement>(
+      '.create-shelf-button'
+    );
+
+    const name = nameInput?.value.trim();
+    const coverImage = selectedCover?.value;
+
+    if (!name || name.length > 100 || !coverImage || !allowedCovers.includes(coverImage)) {
+      alert('Please enter a shelf name and select a valid cover.');
+      return;
+    }
+
+    const { data: { user }, error: authError } = await supabase.auth.getUser();
+
+    if (authError || !user) {
+      alert('Please sign in to create a shelf.');
+      window.location.href = '/signin';
+      return;
+    }
+
+    if (submitButton) {
+      submitButton.disabled = true;
+      submitButton.textContent = 'Creating...';
+    }
+
+    try {
+      const { error } = await supabase
+        .from('shelves')
+        .insert({
+          user_id: user.id,
+          name: name,
+          cover_image: coverImage
+        });
+
+      if (error) {
+        console.error('Error creating shelf:', error.message);
+        alert('Could not create your shelf. Please try again.');
+        return;
+      }
+
+      form.reset();
+      modal?.close();
+
+      // Refresh the dashboard after saving.
+      window.location.reload();
+
+    } catch (error) {
+      console.error('Unexpected shelf creation error:', error);
+      alert('Something went wrong. Please try again.');
+
+    } finally {
+      if (submitButton) {
+        submitButton.disabled = false;
+        submitButton.textContent = 'Create Shelf';
+      }
+    }
+  });
+</script>
+
