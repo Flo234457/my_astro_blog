@@ -35,7 +35,15 @@ export class AstroSsrStack extends cdk.Stack {
       circuitBreaker: { rollback: true },
       minHealthyPercent: 100,
       taskImageOptions: {
-        image: ecs.ContainerImage.fromAsset(path.resolve(__dirname, '../..')),
+        image: ecs.ContainerImage.fromAsset(
+  path.resolve(__dirname, '../..'),
+  {
+    buildArgs: {
+      PUBLIC_SUPABASE_URL: supabaseUrl,
+      PUBLIC_SUPABASE_PUBLISHABLE_KEY: supabaseKey,
+    },
+  }
+),
         containerPort: 4321,
         logDriver: ecs.LogDrivers.awsLogs({
           streamPrefix: 'astro',
