@@ -5,9 +5,16 @@ WORKDIR /app
 
 COPY package*.json ./
 RUN npm ci
-
 COPY . .
-RUN npm run build
+
+ARG PUBLIC_SUPABASE_URL
+ARG PUBLIC_SUPABASE_PUBLISHABLE_KEY
+
+RUN test -n "$PUBLIC_SUPABASE_URL" \
+    && test -n "$PUBLIC_SUPABASE_PUBLISHABLE_KEY" \
+    && PUBLIC_SUPABASE_URL="$PUBLIC_SUPABASE_URL" \
+       PUBLIC_SUPABASE_PUBLISHABLE_KEY="$PUBLIC_SUPABASE_PUBLISHABLE_KEY" \
+       npm run build
 
 # Stage 2: Prepare production dependencies
 FROM node:22-alpine AS production-deps

@@ -3,7 +3,7 @@ name: Deploy Astro SSR to AWS ECS
 
 on:
   push:
-    branches: [main]
+    branches: [feat/dynamic-shelves]
   workflow_dispatch:
 
 permissions:
