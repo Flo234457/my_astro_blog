@@ -1,0 +1,192 @@
+
+---
+export const prerender = false;
+---
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Search Books | BookMarks</title>
+  </head>
+
+  <body>
+    <h1>Find a Book 📚</h1>
+
+    <input
+      type="text"
+      id="book-search"
+      placeholder="Search by book title or author"
+    />
+
+    <button id="search-button">Search</button>
+
+    <p id="message"></p>
+    <div id="results"></div>
+
+   
+<script>
+  import { supabase } from "../lib/supabase";
+
+  // Get the shelf ID from the URL
+  const params = new URLSearchParams(window.location.search);
+  const shelfId = params.get("shelf");
+
+  const input = document.querySelector<HTMLInputElement>("#book-search");
+  const button = document.querySelector<HTMLButtonElement>("#search-button");
+  const results = document.querySelector<HTMLDivElement>("#results");
+  const message = document.querySelector<HTMLParagraphElement>("#message");
+
+  // Structure of a book returned by Open Library
+  type OpenLibraryBook = {
+    key?: string;
+    title?: string;
+    author_name?: string[];
+    cover_i?: number;
+  };
+
+  // Save a selected book to Supabase
+  async function addBookToShelf(book: OpenLibraryBook): Promise<boolean> {
+    if (!shelfId) {
+      alert("Please open a shelf before adding a book.");
+      return false;
+    }
+
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
+
+    if (authError || !user) {
+      alert("Please sign in before adding books.");
+      return false;
+    }
+
+    const { error } = await supabase.from("books").insert({
+      shelf_id: shelfId,
+      open_library_id: book.key ?? null,
+      title: book.title ?? "Untitled",
+      author: book.author_name?.join(", ") ?? "Unknown author",
+      cover_image: book.cover_i
+        ? `https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg`
+        : null,
+    });
+
+    if (error) {
+      console.error("Failed to save book:", error);
+      alert(`Could not add book: ${error.message}`);
+      return false;
+    }
+
+    alert("Book added successfully!");
+
+    window.location.href =
+      `/shelves/${encodeURIComponent(shelfId)}`;
+
+    return true;
+  }
+
+  // Search Open Library for books
+  async function searchBooks() {
+    if (!input || !results || !message) return;
+
+    const query = input.value.trim();
+
+    if (!query) {
+      message.textContent = "Please enter a book title!";
+      return;
+    }
+
+    message.textContent = "Searching...";
+    results.replaceChildren();
+
+    if (button) button.disabled = true;
+
+    try {
+      const url = new URL("https://openlibrary.org/search.json");
+
+      url.searchParams.set("q", query);
+      url.searchParams.set("limit", "10");
+      url.searchParams.set("fields", "key,title,author_name,cover_i");
+
+      const response = await fetch(url);
+
+      if (!response.ok) {
+        throw new Error(`Book search failed: ${response.status}`);
+      }
+
+      const data = await response.json();
+      const books: OpenLibraryBook[] = data.docs ?? [];
+
+      message.textContent = books.length
+        ? `Found ${books.length} results`
+        : "No books found.";
+
+      for (const book of books) {
+        const card = document.createElement("article");
+        const title = document.createElement("h3");
+        const author = document.createElement("p");
+        const addButton = document.createElement("button");
+
+        title.textContent = book.title ?? "Untitled";
+
+        author.textContent =
+          book.author_name?.join(", ") ?? "Unknown author";
+
+        if (book.cover_i) {
+          const cover = document.createElement("img");
+
+          cover.src =
+            `https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg`;
+
+          cover.alt = `Cover of ${title.textContent}`;
+          cover.width = 100;
+
+          card.appendChild(cover);
+        }
+
+        // Add a button to each search result
+        addButton.textContent = "Add to Shelf";
+
+        addButton.addEventListener("click", async () => {
+          addButton.disabled = true;
+          addButton.textContent = "Adding...";
+
+          try {
+            const saved = await addBookToShelf(book);
+
+            if (!saved) {
+              addButton.textContent = "Add to Shelf";
+              addButton.disabled = false;
+            }
+          } catch (error) {
+            console.error("Unexpected error saving book:", error);
+            alert("Something went wrong while saving the book.");
+            addButton.textContent = "Add to Shelf";
+            addButton.disabled = false;
+          }
+        });
+
+        card.append(title, author, addButton);
+        results.appendChild(card);
+      }
+    } catch (error) {
+      console.error(error);
+      message.textContent =
+        "Something went wrong. Please try again.";
+    } finally {
+      if (button) button.disabled = false;
+    }
+  }
+
+  button?.addEventListener("click", searchBooks);
+
+  input?.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+      searchBooks();
+    }
+  });
+</script>
+
+  </body>
+</html>
