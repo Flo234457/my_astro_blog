@@ -20,6 +20,9 @@ jobs:
         run: npm ci
 
       - name: Build Astro Static Site
+        env:
+          PUBLIC_SUPABASE_URL: ${{ secrets.PUBLIC_SUPABASE_URL }}
+          PUBLIC_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.PUBLIC_SUPABASE_PUBLISHABLE_KEY }}
         run: npm run build
 
       - name: Change to CDK folder
@@ -35,4 +38,7 @@ jobs:
 
       - name: Deploy Infrastructure & Assets with AWS CDK
         working-directory: hello-cdk
+        env:
+          PUBLIC_SUPABASE_URL: ${{ secrets.PUBLIC_SUPABASE_URL }}
+          PUBLIC_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.PUBLIC_SUPABASE_PUBLISHABLE_KEY }}
         run: npx cdk deploy --require-approval never
