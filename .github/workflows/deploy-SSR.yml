@@ -1,31 +1,38 @@
-name: Deploy Static Site via AWS CDK
+
+name: Deploy Astro SSR to AWS ECS
+
 on:
   push:
-    branches: [main]
+    branches: [feat/dynamic-shelves]
+  workflow_dispatch:
+
+permissions:
+  contents: read
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout Source Code
         uses: actions/checkout@v4
 
-      - name: Setup Node.js Runtime
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 24
-          cache: 'npm'
+          node-version: 22
+          cache: npm
 
-      - name: Install Project & CDK Dependencies
+      - name: Install Astro Dependencies
         run: npm ci
 
-      - name: Build Astro Static Site
+      - name: Build Astro SSR Application
+        run: npm run build
         env:
           PUBLIC_SUPABASE_URL: ${{ secrets.PUBLIC_SUPABASE_URL }}
           PUBLIC_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.PUBLIC_SUPABASE_PUBLISHABLE_KEY }}
-        run: npm run build
 
-      - name: Change to CDK folder
+      - name: Install CDK Dependencies
         working-directory: hello-cdk
         run: npm ci
 
@@ -36,7 +43,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
-      - name: Deploy Infrastructure & Assets with AWS CDK
+      - name: Deploy Astro SSR to ECS Fargate
         working-directory: hello-cdk
         env:
           PUBLIC_SUPABASE_URL: ${{ secrets.PUBLIC_SUPABASE_URL }}
